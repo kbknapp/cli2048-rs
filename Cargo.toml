@@ -1,0 +1,5 @@
+[package]
+
+name = "cli2048-rs"
+version = "0.0.1"
+authors = ["Kevin K. <kbknapp@gmail.com>"]

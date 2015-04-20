@@ -1,8 +1,16 @@
 [package]
 
 name = "cli2048-rs"
-version = "0.0.1"
+version = "0.0.1-pre"
 authors = ["Kevin K. <kbknapp@gmail.com>"]
+description = "A cli implementation of the 2048 game"
+repository = "https://github.com/kbknapp/cli2048-rs.git"
+readme = "README.md"
+
+keywords = ["game", "2048", "cli", "command-line"]
 
 [dependencies]
-clap = "*"
+ncurses = "*"
+
+[dependencies.clap]
+git = "https://github.com/kbknapp/clap-rs"

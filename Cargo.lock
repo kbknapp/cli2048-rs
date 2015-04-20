@@ -1,12 +1,26 @@
 [root]
 name = "cli2048-rs"
-version = "0.0.1"
+version = "0.0.1-pre"
 dependencies = [
- "clap 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "clap 0.6.6 (git+https://github.com/kbknapp/clap-rs)",
+ "ncurses 5.72.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "clap"
-version = "0.4.9"
+version = "0.6.6"
+source = "git+https://github.com/kbknapp/clap-rs#65cc259e4559cbe3653c865ec0c4b1e42a389b07"
+
+[[package]]
+name = "libc"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "ncurses"
+version = "5.72.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 

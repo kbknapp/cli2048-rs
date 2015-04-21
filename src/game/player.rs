@@ -12,7 +12,7 @@ impl Player {
         }
     }
 
-    pub fn inc_score(&self, s: u64) {
+    pub fn inc_score(&mut self, s: u64) {
         self.score += s;
         if self.score > self.high_score {
             self.high_score = self.score;

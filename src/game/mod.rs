@@ -17,7 +17,7 @@ pub fn run() {
 
     let mut quit = false;
     while !quit {
-        let p = Player::new();
+        let mut p = Player::new();
         let mut b = Board::new();
         let g = GameEvents::with_player(p);
         disp.draw(p, &b);

@@ -5,11 +5,17 @@ use time;
 
 use game::events::Direction;
 
+const ROWS: [[u8; 4]; 4] = [[0, 1, 2, 3], 
+                            [4, 5, 6, 7], 
+                            [8, 9, 10, 11], 
+                            [12, 13, 14, 15]];
+const COLS: [[u8; 4]; 4] = [[0, 4, 8, 12],
+                            [1, 5, 9, 13],
+                            [2, 6, 10, 14],
+                            [3, 7, 11, 15]];
 #[derive(Copy, Clone)]
 pub struct Board {
     board: [u16; 16],
-    rows: [[u8; 4]; 4],
-    cols: [[u8; 4]; 4],
     rng: ChaChaRng,
 }
 
@@ -17,21 +23,21 @@ impl Board {
     pub fn new() -> Board {
         let mut b = Board {
             board: [0; 16],
-            rows: [[0; 4]; 4],
-            cols: [[0; 4]; 4],
+            // rows: [[0; 4]; 4],
+            // cols: [[0; 4]; 4],
             rng: ChaChaRng::from_seed(&[time::precise_time_s() as u32]),
         };
 
-        let mut r: u8 = 0;
-        let mut c: usize = 0;
-        for i in (0..4) {
-            for j in (0..4) {
-                b.rows[i][j] = r;
-                r += 1;
-                b.cols[i][j] = ((j * 4) + c) as u8;
-            }
-            c += 1;
-        }
+        // let mut r: u8 = 0;
+        // let mut c: usize = 0;
+        // for i in (0..4) {
+        //     for j in (0..4) {
+        //         b.rows[i][j] = r;
+        //         r += 1;
+        //         b.cols[i][j] = ((j * 4) + c) as u8;
+        //     }
+        //     c += 1;
+        // }
 
         b.new_cell();
         b.new_cell();
@@ -88,7 +94,7 @@ impl Board {
             b = self.board[i+2];
         }
         b = self.board[self.board.len()-1];
-        for (i, col) in self.cols.iter().enumerate() {
+        for (i, col) in COLS.iter().enumerate() {
             for (j, cell) in col.iter().enumerate() {
                 a = self.board[*cell as usize];
                 if a == b {
@@ -96,7 +102,7 @@ impl Board {
                 }
                 if j >= 2 {
                     if i < self.board.len()-1 {
-                        b = self.board[self.cols[i+1][1] as usize];
+                        b = self.board[COLS[i+1][1] as usize];
                     }
                     break
                 }
@@ -121,29 +127,21 @@ impl Board {
     pub fn move_cells(&mut self, d: Direction) -> (u64, u64) {
         match d {
             Direction::Up    => {
-                let r = &self.rows;
-                let res = self.shift_cells(r);
-                res
+                self.shift_cells(ROWS)
             },
             Direction::Down  => {
-                let r = &self.rows;
-                let res = self.shift_cells_rev(r);
-                res
+                self.shift_cells_rev(ROWS)
             },
             Direction::Left  => {
-                let c = &self.cols;
-                let res = self.shift_cells(c);
-                res
+                self.shift_cells(COLS)
             },
             Direction::Right => {
-                let c = &self.cols;
-                let res = self.shift_cells_rev(c);
-                res
+                self.shift_cells_rev(COLS)
             },
         }
     }
 
-    fn shift_cells_rev(&mut self, indices: &[[u8; 4]]) -> (u64, u64) {
+    fn shift_cells_rev(&mut self, indices: [[u8; 4]; 4]) -> (u64, u64) {
         let mut done = false;
         let mut moves = 0;
         let mut p: u64 = 0;
@@ -207,7 +205,7 @@ impl Board {
         return (p, moves) 
     }
 
-    fn shift_cells(&mut self, indices: &[[u8; 4]]) -> (u64, u64) {
+    fn shift_cells(&mut self, indices: [[u8; 4]; 4]) -> (u64, u64) {
         let mut done = false;
         let mut moves = 0;
         let mut p: u64 = 0;
@@ -275,10 +273,10 @@ impl Board {
         let mut b = String::with_capacity(130);
         for r in (0..4) {
             b.push_str("____________________\n");
-            b.push_str(&format!("|{}|{}|{}|{}|\n", self.format_cell(self.board[self.rows[r][0] as usize])
-                                               , self.format_cell(self.board[self.rows[r][1] as usize]) 
-                                               , self.format_cell(self.board[self.rows[r][2] as usize]) 
-                                               , self.format_cell(self.board[self.rows[r][3] as usize]))[..]);
+            b.push_str(&format!("|{}|{}|{}|{}|\n", self.format_cell(self.board[ROWS[r][0] as usize])
+                                               , self.format_cell(self.board[ROWS[r][1] as usize]) 
+                                               , self.format_cell(self.board[ROWS[r][2] as usize]) 
+                                               , self.format_cell(self.board[ROWS[r][3] as usize]))[..]);
         }
         b.push_str("---------------------\n");
         b.push_str("h=HELP, [esc] | q=QUIT\n");

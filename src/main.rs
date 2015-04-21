@@ -1,15 +1,19 @@
+#![feature(rand)]
+
+extern crate rand;
+extern crate time;
+extern crate ncurses;
+
+#[macro_use]
+extern crate clap;
+
+#[macro_use]
+mod macros;
+mod game;
+mod constants;
+
 use clap::App;
-
-const MORE_HELP: &'static str = "Controls:
-    UP      w, [UP ARROW]
-    DOWN    s, [DOWN ARROW]
-    LEFT    a, [LEFT ARROW]
-    RIGHT   d, [RIGHT ARROW]
-
-    HELP    h
-    NEW GAME    r, n
-
-    QUIT    q, [ESC]";
+use constants::MORE_HELP;
 
 fn main() {
 	// Handle basic arguments and free the memory since we aren't using the
@@ -19,7 +23,7 @@ fn main() {
 				.about("A command-line implementation of the 2048 game")
 				.version(&format!("v{}", crate_version!())[..])
 				.author("Kevin K. <kbknapp@gmail.com>")
-                .more_help(more_help)
+                .after_help(MORE_HELP)
 				.get_matches();
     }
 

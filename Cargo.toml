@@ -11,6 +11,7 @@ keywords = ["game", "2048", "cli", "command-line"]
 
 [dependencies]
 ncurses = "*"
+time = "*"
 
 [dependencies.clap]
 git = "https://github.com/kbknapp/clap-rs"
